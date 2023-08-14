@@ -17,6 +17,7 @@ namespace BulkyBook.DataAccess.Repository
         public Repository(ApplicationDbContext _db)
         {
             _context= _db;
+            _db.products.Include(x => x.Category).Include(x => x.CoverType);
             this.Dbset= _db.Set<T>();
         }
         public void Add(T entity)
@@ -24,15 +25,29 @@ namespace BulkyBook.DataAccess.Repository
             Dbset.Add(entity);
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(string? includeProperties = null)
         {
             IQueryable<T> query = Dbset;
+            if (includeProperties != null)
+            {
+                foreach (var property in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property);
+                }
+            }
             return query.ToList();
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filter)
+        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             IQueryable<T> query = Dbset;
+            if(includeProperties != null)
+            {
+                foreach(var property in includeProperties.Split(new char[] {','},StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property);
+                }
+            }
             query = query.Where(filter);
 
             return query.FirstOrDefault();
