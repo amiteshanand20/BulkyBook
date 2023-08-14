@@ -21,10 +21,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-//first handle any websocket requests
-//app.UseWebSockets();
-//app.UseWebSocketHandler();
-
 app.UseHttpsRedirection();
 
 
