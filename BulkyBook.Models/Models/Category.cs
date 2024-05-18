@@ -4,9 +4,10 @@ namespace BulkyBook.Models
 {
     public class Category
     {
-        [Key]
+        [Key] //tells Entity framework that ID is Primary key
         public int ID { get; set; }
-        [Required]
+        [Required] //tells Entity framework that Name column will be non-nullable
+        [Display(Name="Category Name")]
         public string Name { get; set; }
         [Display(Name ="Display Order")]
         [Range(1,100,ErrorMessage ="Display order must be between 0 to 100 !!!")]

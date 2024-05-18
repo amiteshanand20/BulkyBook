@@ -23,8 +23,11 @@ namespace BulkyBookWeb.Controllers
         //GET
         public IActionResult Index()
         {
-            return View();
-        }
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+
+            return View(objProductList);
+        } 
+       
 
       
         //GET
@@ -53,7 +56,7 @@ namespace BulkyBookWeb.Controllers
             }
             else
             {
-                productVM.Product = _unitOfWork.Product.GetFirstOrDefault( x=> x.Id == Id );
+                productVM.Product = _unitOfWork.Product.Get( x=> x.Id == Id );
                 return View(productVM);
                 //Update Product
             }
@@ -107,45 +110,37 @@ namespace BulkyBookWeb.Controllers
             return View(obj);
         }
 
-        //GET
-        public IActionResult Delete(int? Id)
-        {
-            if(Id == null || Id == 0)
-            {
-                return NotFound();
-            }
-            var DataFromDb = _unitOfWork.Product.GetFirstOrDefault(x => x.Id == Id); ;
-
-            if(DataFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(DataFromDb);
-        }
-        
-        //POST
-        [HttpPost,ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeletePOST(int? Id)
-        {
-            var obj = _unitOfWork.Product.GetFirstOrDefault(x => x.Id == Id); ;
-            if(obj == null)
-            {
-                return NotFound();
-            }
-            _unitOfWork.Product.Remove(obj);
-            _unitOfWork.Save();
-            TempData["Success"] = "Product deleted successfully";
-            return RedirectToAction("Index");
-
-        }
-
+               
         #region API CALLS
         public IActionResult GetAll()
         {
-            var productList = _unitOfWork.Product.GetAll(includeProperties:"Category,CoverType");
+            List<Product> productList = _unitOfWork.Product.GetAll(includeProperties:"Category").ToList();
             return Json(new {data = productList});
         }
+
+        //POST
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int? Id)
+        {
+            var obj = _unitOfWork.Product.Get(x => x.Id == Id); ;
+            if (obj == null)
+            {
+                return Json(new {success=false,message = "Error while deleting"});
+            }
+
+            var OldImagePath = Path.Combine(_hostEnvironment.WebRootPath, obj.ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(OldImagePath))
+            {
+                System.IO.File.Delete(OldImagePath);
+            }
+            _unitOfWork.Product.Remove(obj);
+            _unitOfWork.Save();
+            return Json(new { success = true, message = "Product deleted successfully" });
+
+
+        }
+
         #endregion
 
     }

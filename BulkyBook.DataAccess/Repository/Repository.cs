@@ -28,7 +28,7 @@ namespace BulkyBook.DataAccess.Repository
         public IEnumerable<T> GetAll(string? includeProperties = null)
         {
             IQueryable<T> query = Dbset;
-            if (includeProperties != null)
+            if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var property in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
@@ -38,10 +38,10 @@ namespace BulkyBook.DataAccess.Repository
             return query.ToList();
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             IQueryable<T> query = Dbset;
-            if(includeProperties != null)
+            if(!string.IsNullOrEmpty(includeProperties))
             {
                 foreach(var property in includeProperties.Split(new char[] {','},StringSplitOptions.RemoveEmptyEntries))
                 {

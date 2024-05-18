@@ -41,7 +41,7 @@ namespace BulkyBookWeb.Controllers
             {
                 _unitOfWork.Category.Add(obj);
                 _unitOfWork.Save();
-                TempData["Success"] = "Category created successfully";
+                TempData["Success"] = "Category created successfully!";
                 return RedirectToAction("Index");
             }
 
@@ -56,7 +56,7 @@ namespace BulkyBookWeb.Controllers
                 return NotFound();
             }
             //var DataFromDb = _db.categories.Find(Id);
-            var DataFromDb = _unitOfWork.Category.GetFirstOrDefault(x => x.ID==Id);
+            var DataFromDb = _unitOfWork.Category.Get(x => x.ID==Id);
 
             if(DataFromDb == null)
             {
@@ -78,7 +78,7 @@ namespace BulkyBookWeb.Controllers
             {
                 _unitOfWork.Category.Update(obj);
                 _unitOfWork.Save();
-                TempData["Success"] = "Category updated successfully";
+                TempData["Success"] = "Category updated successfully!";
                 return RedirectToAction("Index");
             }
 
@@ -92,7 +92,7 @@ namespace BulkyBookWeb.Controllers
             {
                 return NotFound();
             }
-            var DataFromDb = _unitOfWork.Category.GetFirstOrDefault(x => x.ID == Id); ;
+            var DataFromDb = _unitOfWork.Category.Get(x => x.ID == Id); ;
 
             if(DataFromDb == null)
             {
@@ -106,14 +106,14 @@ namespace BulkyBookWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePOST(int? Id)
         {
-            var obj = _unitOfWork.Category.GetFirstOrDefault(x => x.ID == Id); ;
+            var obj = _unitOfWork.Category.Get(x => x.ID == Id); ;
             if(obj == null)
             {
                 return NotFound();
             }
             _unitOfWork.Category.Remove(obj);
             _unitOfWork.Save();
-            TempData["Success"] = "Category deleted successfully";
+            TempData["Success"] = "Category deleted successfully!";
             return RedirectToAction("Index");
 
         }

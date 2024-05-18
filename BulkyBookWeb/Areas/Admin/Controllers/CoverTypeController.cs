@@ -53,7 +53,7 @@ namespace BulkyBookWeb.Controllers
             {
                 return NotFound();
             }
-            var DataFromDb = _unitOfWork.CoverType.GetFirstOrDefault(x => x.ID==Id);
+            var DataFromDb = _unitOfWork.CoverType.Get(x => x.ID==Id);
 
             if(DataFromDb == null)
             {
@@ -86,7 +86,7 @@ namespace BulkyBookWeb.Controllers
             {
                 return NotFound();
             }
-            var DataFromDb = _unitOfWork.CoverType.GetFirstOrDefault(x => x.ID == Id); ;
+            var DataFromDb = _unitOfWork.CoverType.Get(x => x.ID == Id); ;
 
             if(DataFromDb == null)
             {
@@ -100,7 +100,7 @@ namespace BulkyBookWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePOST(int? Id)
         {
-            var obj = _unitOfWork.CoverType.GetFirstOrDefault(x => x.ID == Id); ;
+            var obj = _unitOfWork.CoverType.Get(x => x.ID == Id); ;
             if(obj == null)
             {
                 return NotFound();
