@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace BulkyBookWeb.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = SD.Role_Admin)]
+    //[Authorize(Roles = SD.Role_Admin)]
 
     public class CoverTypeController : Controller
     {

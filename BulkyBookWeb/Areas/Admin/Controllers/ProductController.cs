@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace BulkyBookWeb.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = SD.Role_Admin)]
+    //[Authorize(Roles = SD.Role_Admin)]
 
     public class ProductController : Controller
     {
@@ -124,7 +124,7 @@ namespace BulkyBookWeb.Controllers
 
         //POST
         [HttpDelete]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public IActionResult Delete(int? Id)
         {
             var obj = _unitOfWork.Product.Get(x => x.Id == Id); ;
