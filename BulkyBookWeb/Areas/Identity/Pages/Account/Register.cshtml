@@ -74,7 +74,7 @@
                             </select>
                         </div>
                         <div class="form-floating mb-3 col-md-6">
-                            <select asp-for="Input.CompanyId" asp-items="@Model.Input.CompanyList" class="form-select">
+                            <select asp-for="Input.CompanyId" style="display: none" asp-items="@Model.Input.CompanyList" class="form-select">
                                 <option disabled selected>-Select Company-</option>
                             </select>
                         </div>
@@ -126,6 +126,9 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    @*     Script to show company lis dropdown only if selected role from dropdown is company   *@
+
     <script>
         $(document).ready(function () {
             $('#Input_Role').change(function(){
