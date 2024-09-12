@@ -60,6 +60,8 @@ namespace BulkyBookWeb.Controllers
             }
             _unitOfWork.Save();
 
+            TempData["success"] = "Cart updated successfully!";
+
             return RedirectToAction(nameof(Index));
         }
         public IActionResult Privacy()
