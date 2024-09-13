@@ -25,9 +25,13 @@ namespace BulkyBook.DataAccess.Repository
             Dbset.Add(entity);
         }
 
-        public IEnumerable<T> GetAll(string? includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter, string? includeProperties = null)
         {
             IQueryable<T> query = Dbset;
+            if(filter != null)
+            {
+                query = query.Where(filter);
+            }
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var property in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
@@ -49,14 +53,14 @@ namespace BulkyBook.DataAccess.Repository
             {
                 query = Dbset.AsNoTracking(); //explicitly stating efcore to not track changes 
             }
-            if(!string.IsNullOrEmpty(includeProperties))
+            query = query.Where(filter);
+            if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach(var property in includeProperties.Split(new char[] {','},StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(property);
                 }
             }
-            query = query.Where(filter);
 
             return query.FirstOrDefault();
         }
