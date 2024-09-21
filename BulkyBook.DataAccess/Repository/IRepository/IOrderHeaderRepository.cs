@@ -11,5 +11,7 @@ namespace BulkyBook.DataAccess.Repository.IRepository
     public interface IOrderHeaderRepository : IRepository<OrderHeader>
     {
         void Update(OrderHeader obj);
+        void UpdateStatus(int id,string OrderStatus, String? PaymentStatus = null);
+        void UpdateStripePaymentID(int id,string SessionId, String PaymentIntentId);
     }
 }
