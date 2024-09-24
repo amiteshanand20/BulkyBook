@@ -128,7 +128,8 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 
                 var options = new SessionCreateOptions
                 {
-                    SuccessUrl = domain + $"Customer/Cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
+                    SuccessUrl = domain + $"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
+                    CancelUrl = domain + "customer/cart/index",
                     LineItems = new List<SessionLineItemOptions>(),
                     Mode = "payment",
                 };
@@ -159,7 +160,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
                 return new StatusCodeResult(303);
             }
 
-			return RedirectToAction(nameof(OrderConfirmation), new {Id = ShoppingCartVM.OrderHeader.Id});
+			return RedirectToAction(nameof(OrderConfirmation), new {id = ShoppingCartVM.OrderHeader.Id});
         }
 
         public IActionResult OrderConfirmation(int Id)
