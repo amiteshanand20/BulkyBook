@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BulkyBook.Models.ViewModels
 {
-    class OrderVM
+    public class OrderVM
     {
         public OrderHeader OrderHeader { get; set; }
         public IEnumerable<OrderDetail> OrderDetails { get; set; }
